@@ -10,6 +10,10 @@
     @include('partials.styles')
     @stack('style')
 
+    {{-- <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> --}}
+    <!-- Fonts -->
+    <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <title>{{ $title }} | Absensi App</title>
 </head>
 

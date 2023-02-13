@@ -4,26 +4,31 @@
 <link rel="stylesheet" href="{{ asset('css/auth/login.css') }}">
 @endpush
 
-@section('content')
-<div class="card">
-    <main class="form-signin m-auto">
-        <form method="POST" action="{{ route('auth.login') }}" id="login-form">
-            <h1 class="h3 mb-3 fw-normal">Silahkan masuk untuk absensi</h1>
-
-            <div class="form-floating">
-                <input type="email" class="form-control" id="email" name="email">
-                <label for="email">Email address</label>
+@section('container')
+<div class="container">
+    <div class="card">
+        <div class="row text-center">
+            <div class="col-md-6">
+                <img src="{{ asset('img/redesma.png') }}" alt="" class="w-100">
             </div>
-            <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" name="password"
-                    placeholder="Password">
-                <label for="floatingPassword">Password</label>
+            <div class="col-md-6 d-flex align-items-center justify-content-center">
+                <form method="POST" action="{{ route('auth.login') }}" id="login-form">
+                    @csrf
+                    <div class="form-floating">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="example@gmail.com">
+                        <label for="email">Email address</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="Password">
+                        <label for="password">Password</label>
+                    </div>
+                    <button class="btn btn-primary" type="submit" id="login-form-button">Log In</button>
+                </form>
             </div>
-            <button class="w-100 btn btn-primary" type="submit" id="login-form-button">Log In</button>
-        </form>
-    </main>
+        </div>
+    </div>
 </div>
-
 @endsection
 
 @push('script')

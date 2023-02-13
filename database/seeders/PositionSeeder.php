@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Position;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class PositionSeeder extends Seeder
 {
@@ -14,6 +16,10 @@ class PositionSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Position::factory()->createMany([
+            ["name" => "Staff"],
+            ["name" => "Manager"],
+            ["name" => "Operator"],
+        ]);
     }
 }

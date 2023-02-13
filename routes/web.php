@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,6 +14,14 @@ use App\Http\Controllers\AuthController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::middleware('auth')->group(function () {
+    Route::middleware('role:admin')->group(function () {
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    });
+
+    Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+});
 
 Route::middleware('guest')->group(function () {
     // auth
