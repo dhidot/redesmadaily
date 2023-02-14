@@ -19,8 +19,10 @@ use App\Http\Controllers\PositionController;
 Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-        Route::get('positions', [PositionController::class, 'index'])->name('positions.index');
-        Route::get('positions/create', [PositionController::class, 'create'])->name('positions.create');
+
+        //Halaman Position
+        Route::resource('/positions', PositionController::class)->only(['index', 'create']);
+        Route::get('/positions/edit', [PositionController::class, 'edit'])->name('positions.edit');
     });
 
     Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');

@@ -12,45 +12,41 @@ class PositionCreateForm extends Component
 
     public function mount()
     {
-        $this->positions = ['name' => ''];
+        $this->positions = [
+            ['name' => '']
+        ];
     }
 
-    public function addPositionInput()
+    public function addPositionInput(): void
     {
         $this->positions[] = ['name' => ''];
     }
 
-    public function removePositionInput($index)
+    public function removePositionInput(int $index): void
     {
         unset($this->positions[$index]);
         $this->positions = array_values($this->positions);
     }
 
-    public function savePositionInput(int $index): void
+    public function savePositions()
     {
-        // Hanya input pertama yang required
-        // Karena akan difilter apakah input kedua dan input selanjutnya kosong atau tidak
+        // setidaknya input pertama yang hanya required,
+        // karena nanti akan difilter apakah input kedua dan input selanjutnya apakah berisi
+        $this->validate([
+            'positions.0.name' => 'required'
+        ], ['positions.0.name.required' => 'Setidaknya input jabatan pertama wajib diisi.']);
 
-        $this->validate(
-            [
-                'positions.0.name' => 'required',
-            ],
-            [
-                'positions.0.name.required' => 'Nama posisi tidak boleh kosong',
-            ]
-        );
-
-        // Ambil input dari posisi yang diisi
-        $positions = array_filter($this->positions, function ($position) {
-            return $position['name'] !== '';
+        // ambil input/request dari position yang berisi
+        $positions = array_filter($this->positions, function ($a) {
+            return trim($a['name']) !== "";
         });
 
-        // Simpan ke database
+        // alasan menggunakan create alih2 mengunakan ::insert adalah karena tidak looping untuk menambahkan created_at dan updated_at
         foreach ($positions as $position) {
             Position::create($position);
         }
 
-        redirect()->route('positions.index')->with('success', 'Posisi berhasil ditambahkan');
+        redirect()->route('positions.index')->with('success', 'Data jabatan berhasil ditambahkan.');
     }
 
     public function render()

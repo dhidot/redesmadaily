@@ -14,6 +14,9 @@ final class PositionTable extends PowerGridComponent
 {
     use ActionButton;
 
+    public string $sortField = 'positions.created_at';
+    public string $sortDirection = 'desc';
+
     protected function getListeners()
     {
         return array_merge(
@@ -162,14 +165,12 @@ final class PositionTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
-                ->searchable()
-                ->sortable(),
+            // Column::make('ID', 'id')
+            //     ->searchable()
+            //     ->sortable(),
 
             Column::make('Name', 'name')
-                ->searchable()
-                ->makeInputText('name')
-                ->sortable(),
+                ->searchable(),
 
             Column::make('Created at', 'created_at')
                 ->hidden(),
