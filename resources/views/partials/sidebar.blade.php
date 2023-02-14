@@ -1,22 +1,22 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
     <div class="position-sticky pt-3">
-        <ul class="nav flex-column">
+        <ul class="nav flex-column text-center">
             @if (auth()->user()->isAdmin())
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('dashboard.*') ? 'active' : '' }}" aria-current="page"
                     href="{{ route('dashboard.index') }}">
-                    <span data-feather="home" class="align-text-bottom"></span>
+                    <i class="bi bi-speedometer" style="width: 20px: height: 20px;"></i>
                     Dashboard
                 </a>
             </li>
-            {{-- <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('positions.*') ? 'active' : '' }}"
                     href="{{ route('positions.index') }}">
-                    <span data-feather="tag" class="align-text-bottom"></span>
-                    Jabatan / Posisi
+                    <i class="bi bi-bookmarks-fill"></i>
+                    Jabatan
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('employees.*') ? 'active' : '' }}"
                     href="{{ route('employees.index') }}">
                     <span data-feather="users" class="align-text-bottom"></span>

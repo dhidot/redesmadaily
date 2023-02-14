@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PositionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,8 @@ use App\Http\Controllers\DashboardController;
 Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+        Route::get('positions', [PositionController::class, 'index'])->name('positions.index');
+        Route::get('positions/create', [PositionController::class, 'create'])->name('positions.create');
     });
 
     Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');

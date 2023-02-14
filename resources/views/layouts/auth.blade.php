@@ -2,6 +2,6 @@
 
 @section('base')
 
-@yield('container')
+@yield('content')
 
 @endsection
