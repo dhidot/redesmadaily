@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create([
             'name' => 'Cut Putri',
             'email' => 'cutputri@gmail.com',
+            'password' => bcrypt('password'),
             'role_id' => Role::where('name', 'admin')->first('id'),
             'position_id' => Position::where('name', 'Manager')->first('id'),
         ]);

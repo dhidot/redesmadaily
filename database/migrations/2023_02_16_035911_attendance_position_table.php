@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('presences', function (Blueprint $table) {
+        Schema::create('attendance_position', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
             $table->foreignId('attendance_id')->constrained()->cascadeOnDelete();
-            $table->date("presence_date");
-            $table->time("presence_enter_time");
-            $table->time("presence_out_time")->nullable();
+            $table->foreignId('position_id')->constrained();
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('presences');
+        Schema::dropIfExists('attendance_position');
     }
 };

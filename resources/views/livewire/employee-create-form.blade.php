@@ -24,7 +24,7 @@
                 <div class="mb-3">
                     <x-form-label id="password{{ $i }}"
                         label='Password Karyawaan {{ $i + 1 }} (default: "123" jika tidak diisi)' required="false" />
-                    <x-form-input id="password{{ $i }}" name="password{{ $i }}"
+                    <x-form-input type="password" id="password{{ $i }}" name="password{{ $i }}"
                         wire:model.defer="employees.{{ $i }}.password" required="false" />
                     <x-form-error key=" employees.{{ $i }}.password" />
                 </div>

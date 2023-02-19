@@ -24,20 +24,20 @@
                         Karyawaan
                     </a>
                 </li>
-            {{-- <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('attendances.*') ? 'active' : '' }}"
                     href="{{ route('attendances.index') }}">
-                    <span data-feather="clipboard" class="align-text-bottom"></span>
-                    Absensi
+                    <i class="bi bi-clipboard-plus-fill"></i>
+                    Presensi
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('presences.*') ? 'active' : '' }}"
                     href="{{ route('presences.index') }}">
-                    <span data-feather="clipboard" class="align-text-bottom"></span>
+                    <i class="bi bi-clipboard-data-fill"></i>
                     Data Kehadiran
                 </a>
-            </li> --}}
+            </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('holidays.*') ? 'active' : '' }}"
                     href="{{ route('holidays.index') }}">

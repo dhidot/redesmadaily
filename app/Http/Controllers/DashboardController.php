@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Position;
+use App\Models\Attendance;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,7 +14,8 @@ class DashboardController extends Controller
     {
         return view('dashboard.index', [
             "title" => "Dashboard",
-            "positionCount" => Position::count()
+            "positionCount" => Position::count(),
+            "employeeCount" => User::count(),
         ]);
     }
 }
