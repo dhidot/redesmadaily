@@ -43,10 +43,13 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:user')->name('home.')->group(function () {
         Route::get('/', [HomeController::class, 'index'])->name('index');
 
-        // change password
-        Route::get('/change-password', [HomeController::class, 'changePassword'])->name('change-password');
-        Route::post('/change-password', [HomeController::class, 'updatePassword'])->name('update-password');
+        Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
 
+        // reset Password 
+        Route::get('/edit-password', [HomeController::class, 'editPassword'])->name('edit-password');
+        Route::post('/edit-password', [HomeController::class, 'updatePassword'])->name('update-password');
+
+        // Presensi
         Route::get('/absensi/{attendance}', [HomeController::class, 'show'])->name('show');
     });
 

@@ -157,5 +157,42 @@ class HomeController extends Controller
     //     ]);
     // }
 
+    public function editPassword()
+    {
+        return view('home.edit', [
+            "title" => "Ubah Password",
+            "user" => auth()->user()
+        ]);
+    }
 
+    public function updatePassword(Request $request)
+    {
+        # Validation
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed',
+        ]);
+
+
+        #Match The Old Password
+        if (!Hash::check($request->old_password, auth()->user()->password)) {
+            return back()->with("error", "Password lama tidak sesuai!");
+        }
+
+
+        #Update the new Password
+        User::whereId(auth()->user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return back()->with("status", "Password changed successfully!");
+    }
+
+    public function profile()
+    {
+        return view('home.profile', [
+            "title" => "Profil",
+            "user" => auth()->user()
+        ]);
+    }
 }

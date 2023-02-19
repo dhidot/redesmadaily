@@ -29,5 +29,5 @@
     @stack('script')
 
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
 </html>

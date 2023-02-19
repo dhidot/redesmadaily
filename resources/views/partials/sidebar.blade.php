@@ -45,6 +45,28 @@
                         Hari Libur
                     </a>
                 </li>
+                @else
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('home.index') ? 'active' : '' }}" 
+                        href="{{ route('home.index') }}">
+                        <i class="bi bi-speedometer2"></i>
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('home.profile') ? 'active' : '' }}" 
+                        href="{{ route('home.profile') }}">
+                        <i class="bi bi-person-circle"></i>
+                        Profil
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('home.edit-password') ? 'active' : '' }}" 
+                        href="{{ route('home.edit-password') }}">
+                        <i class="bi bi-pencil-square"></i>
+                        Change Password
+                    </a>
+                </li>
                 @endif
             </ul>
         </div>
@@ -52,8 +74,7 @@
     
     <div class="row align-items-bottom justify-content-center">
 
-        <form action="{{ route('auth.logout') }}" method="post"
-        onsubmit="return confirm('Apakah anda yakin ingin keluar?')">
+        <form action="{{ route('auth.logout') }}" method="POST">
         @method('DELETE')
         @csrf
         <button class="w-full mt-4 d-block bg-transparent border-0 fw-bold text-danger px-3">Keluar</button>

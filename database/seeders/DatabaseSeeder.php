@@ -27,5 +27,13 @@ class DatabaseSeeder extends Seeder
             'role_id' => Role::where('name', 'admin')->first('id'),
             'position_id' => Position::where('name', 'Manager')->first('id'),
         ]);
+
+        \App\Models\User::factory()->create([
+            'name' => 'Chandra',
+            'email' => 'chandranindhito@gmail.com',
+            'password' => bcrypt('cahwonogiri'),
+            'role_id' => Role::where('name', 'user')->first('id'),
+            'position_id' => Position::where('name', 'staff')->first('id'),
+        ]);
     }
 }

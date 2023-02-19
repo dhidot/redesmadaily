@@ -2,6 +2,7 @@
 
 @push('style')
 <link rel="stylesheet" href="{{ asset('tom-select/tom-select.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
 @endpush
 
 @section('buttons')
