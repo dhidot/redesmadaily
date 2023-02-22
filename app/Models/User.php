@@ -25,7 +25,8 @@ class User extends Authenticatable
         'password',
         'phone',
         'role_id',
-        'position_id'
+        'position_id',
+        'department_id'
     ];
 
     /**
@@ -55,6 +56,12 @@ class User extends Authenticatable
     public function position()
     {
         return $this->belongsTo(Position::class);
+    }
+
+    // one user can have only one department
+    public function department()
+    {
+        return $this->hasOne(Department::class);
     }
 
     public function scopeOnlyEmployees($query)

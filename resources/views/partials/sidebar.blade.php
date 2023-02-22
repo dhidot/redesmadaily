@@ -11,6 +11,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('departments.*') ? 'active' : '' }}"
+                    href="{{ route('departments.index') }}">
+                        <i class="bi bi-diagram-3-fill"></i>
+                    Departemen / Divisi
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('positions.*') ? 'active' : '' }}"
                     href="{{ route('positions.index') }}">
                         <i class="bi bi-bookmarks-fill"></i>

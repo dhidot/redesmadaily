@@ -1,14 +1,19 @@
 @extends('layouts.home')
 
 @section('content')
-<div class="container py-5">
+<div class="container">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card shadow-sm mb-2">
                 <div class="card-header">
-                    Daftar Absensi Hari Ini
+                    Daftar Presensi
                 </div>
                 <div class="card-body">
+                    @if (count($attendances) === 0)
+                    <div class="alert alert-info">
+                        Tidak ada form presensi yang bisa ditampilkan.
+                    </div>
+                    @endif
                     <ul class="list-group">
                         @foreach ($attendances as $attendance)
                         <a href="{{ route('home.show', $attendance->id) }}"

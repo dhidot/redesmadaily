@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
-use App\Models\Permission;
 use App\Models\Presence;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 

@@ -6,10 +6,11 @@
 
 @section('content')
 <div class="container">
-    <div class="card">
+    <div class="d-flex mt-5 justify-content-center">
+    <div class="card mt-5 w-75">
         <div class="row text-center">
             <div class="col-md-6">
-                <img src="{{ asset('img/redesma.png') }}" alt="" class="w-100">
+                <img src="{{ asset('img/redesma.png') }}" alt="" class= "img-fluid">
             </div>
             <div class="col-md-6 d-flex align-items-center justify-content-center">
                 <form method="POST" action="{{ route('auth.login') }}" id="login-form">
@@ -33,6 +34,7 @@
                 </form>
             </div>
         </div>
+    </div>
     </div>
 </div>
 @endsection

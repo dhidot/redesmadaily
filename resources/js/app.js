@@ -1,1 +1,2 @@
-import './bootstrap';
+import "./bootstrap";
+window.Pikaday = require("pikaday");

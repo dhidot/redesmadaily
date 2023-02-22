@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HolidayController;
@@ -14,6 +15,10 @@ use App\Http\Controllers\HomeController;
 Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+        // Halaman Department
+        Route::resource('/departments', DepartmentController::class)->only(['index', 'create']);
+        Route::get('/departments/edit', [DepartmentController::class, 'edit'])->name('departments.edit');
 
         //Halaman Position
         Route::resource('/positions', PositionController::class)->only(['index', 'create']);
@@ -38,6 +43,9 @@ Route::middleware('auth')->group(function () {
         // not present data
         Route::get('/presences/{attendance}/not-present', [PresenceController::class, 'notPresent'])->name('presences.not-present');
         Route::post('/presences/{attendance}/not-present', [PresenceController::class, 'notPresent']);
+
+        // present (url untuk menambahkan/mengubah user yang tidak hadir menjadi hadir)
+        Route::post('/presences/{attendance}/present', [PresenceController::class, 'presentUser'])->name('presences.present');
     });
 
     Route::middleware('role:user')->name('home.')->group(function () {
