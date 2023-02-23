@@ -12,6 +12,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "chartjs": "^0.3.24",
         "feather-icons": "^4.29.0",
         "flatpickr": "^4.6.13",
         "pikaday": "^1.8.2"

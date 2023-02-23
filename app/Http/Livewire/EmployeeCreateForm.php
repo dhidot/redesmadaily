@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Position;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Department;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
@@ -14,19 +15,21 @@ class EmployeeCreateForm extends Component
     public $employees;
     public Collection $roles;
     public Collection $positions;
+    public Collection $departments;
 
     public function mount()
     {
         $this->positions = Position::all();
+        $this->departments = Department::all();
         $this->roles = Role::all();
         $this->employees = [
-            ['name' => '', 'email' => '', 'phone' => '', 'password' => '', 'role_id' => User::USER_ROLE_ID, 'position_id' => $this->positions->first()->id]
+            ['name' => '', 'email' => '', 'phone' => '', 'password' => '', 'department_id' => $this->departments->first()->id, 'role_id' => User::USER_ROLE_ID, 'position_id' => $this->positions->first()->id]
         ];
     }
 
     public function addEmployeeInput(): void
     {
-        $this->employees[] = ['name' => '', 'email' => '', 'phone' => '', 'password' => '', 'role_id' => User::USER_ROLE_ID, 'position_id' => $this->positions->first()->id];
+        $this->employees[] = ['name' => '', 'email' => '', 'phone' => '', 'password' => '', 'department_id' => $this->departments->first()->id, 'role_id' => User::USER_ROLE_ID, 'position_id' => $this->positions->first()->id];
     }
 
     public function removeEmployeeInput(int $index): void
@@ -40,6 +43,7 @@ class EmployeeCreateForm extends Component
         // cara lebih cepat, dan kemungkinan data role tidak akan diubah/ditambah
         $roleIdRuleIn = join(',', $this->roles->pluck('id')->toArray());
         $positionIdRuleIn = join(',', $this->positions->pluck('id')->toArray());
+        $departmentIdRuleIn = join(',', $this->departments->pluck('id')->toArray());
         // $roleIdRuleIn = join(',', Role::all()->pluck('id')->toArray());
 
         // setidaknya input pertama yang hanya required,
@@ -49,6 +53,7 @@ class EmployeeCreateForm extends Component
             'employees.*.email' => 'required|email|unique:users,email',
             'employees.*.phone' => 'required|unique:users,phone',
             'employees.*.password' => '',
+            'employees.*.department_id' => 'required|in:' . $departmentIdRuleIn,
             'employees.*.role_id' => 'required|in:' . $roleIdRuleIn,
             'employees.*.position_id' => 'required|in:' . $positionIdRuleIn,
         ]);

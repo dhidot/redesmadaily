@@ -40,6 +40,17 @@
                     <x-form-error key="employees.{{ $i }}.position_id" />
                 </div>
                 <div class="mb-3">
+                    <x-form-label id="department_id{{ $i }}" label='Departemen / Divisi {{ $i + 1 }}' />
+                    <select class="form-select" aria-label="Default select example" name="department_id"
+                        wire:model.defer="employees.{{ $i }}.department_id">
+                        <option selected disabled>-- Pilih Posisi --</option>
+                        @foreach ($departments as $department)
+                        <option value="{{ $department->id }}">{{ ucfirst($department->name) }}</option>
+                        @endforeach
+                    </select>
+                    <x-form-error key="employees.{{ $i }}.department_id" />
+                </div>
+                <div class="mb-3">
                     <x-form-label id="role_id{{ $i }}" label='Role {{ $i + 1 }}' />
                     <select class="form-select" aria-label="Default select example" name="role_id"
                         wire:model.defer="employees.{{ $i }}.role_id">

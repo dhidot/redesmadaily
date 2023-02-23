@@ -17,6 +17,8 @@
 
     {{-- Bootstrap Icons --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="icon" type="image/png" href="/img/redesmalogo.png">
+    
     <title>{{ $title }} | Redesmanagement</title>
 </head>
 
@@ -29,5 +31,4 @@
     @stack('script')
 
 </body>
-<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
 </html>

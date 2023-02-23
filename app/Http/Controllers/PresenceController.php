@@ -13,6 +13,7 @@ class PresenceController extends Controller
     public function index()
     {
         $attendances = Attendance::all()->sortByDesc('data.is_end')->sortByDesc('data.is_start');
+        $attendanxes_position = Attendance::all()->sortByDesc('data.is_end')->sortByDesc('data.is_start')->pluck('position_id');
 
         return view('presences.index', [
             "title" => "Daftar Absensi Dengan Kehadiran",

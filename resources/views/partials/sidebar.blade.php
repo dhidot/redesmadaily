@@ -1,4 +1,4 @@
-<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse mt-2">
     <div class="row">
         <div class="position-sticky pt-3">
             <ul class="nav flex-column text-center">
@@ -78,13 +78,12 @@
             </ul>
         </div>
     </div>
-    
-    <div class="row align-items-bottom justify-content-center">
-
+    <div class="row text-center  mh-100 align-items-bottom">
         <form action="{{ route('auth.logout') }}" method="POST">
         @method('DELETE')
         @csrf
-        <button class="w-full mt-4 d-block bg-transparent border-0 fw-bold text-danger px-3">Keluar</button>
+        <button class="w-full mt-5 bg-transparent border-0 fw-bold text-danger px-3">Keluar <i class="bi bi-box-arrow-right"></i></button>
     </form>
+    </div>
 </div>
 </nav>
