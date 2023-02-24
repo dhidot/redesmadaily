@@ -67,20 +67,6 @@
                 {{-- tom-select init script ada di create.blade.php attendances --}}
             </div>
 
-            <div class="mb-3">
-                <x-form-label id="flexCheckCode" label="Ingin Menggunakan QRCode (default menggunakan tombol)" />
-                <div class=" form-check">
-                    <input class="form-check-input" type="checkbox" value="" wire:model="attendance.code"
-                        id="flexCheckCode">
-                    <label class="form-check-label" for="flexCheckCode">
-                        Menggunakan QRCode
-                    </label>
-                    <small class="text-muted d-block mt-1">Jika checkbox tersebut diubah maka kemungkinan kode qrcode
-                        berubah.</small>
-                    <x-form-error key="attendance.code" />
-                </div>
-            </div>
-
         </div>
 
         <div class="d-flex justify-content-between align-items-center mb-5">

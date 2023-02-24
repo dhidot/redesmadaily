@@ -6,6 +6,7 @@ use App\Models\Presence;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Code;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
@@ -96,8 +97,8 @@ final class PresenceTable extends PowerGridComponent
             ->addColumn("presence_date")
             ->addColumn("presence_enter_time")
             ->addColumn("presence_out_time", fn (Presence $model) => $model->presence_out_time ?? '<span class="badge text-bg-danger">Belum Absensi Pulang</span>')
-            ->addColumn("is_permission", fn (Presence $model) => $model->is_permission ?
-                '<span class="badge text-bg-warning">Izin</span>' : '<span class="badge text-bg-success">Hadir</span>')
+            // get work time detail hour:minute:second format from presence_out_time - presence_enter_time
+            ->addColumn("work_time", fn (Presence $model) => $model->presence_out_time ? Carbon::parse($model->presence_out_time)->diffAsCarbonInterval(Carbon::parse($model->presence_enter_time)) : '<span class="badge text-bg-danger">Belum Absensi Pulang</span>')
             ->addColumn('created_at')
             ->addColumn('created_at_formatted', fn (Presence $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
@@ -143,6 +144,12 @@ final class PresenceTable extends PowerGridComponent
                 ->searchable()
                 // ->makeInputRange('presence_out_time') // ini juga
                 ->makeInputText('presence_out_time')
+                ->sortable(),
+
+            // Total Jam Kerja
+            Column::make('Total Jam Kerja', 'work_time')
+                ->searchable()
+                ->makeInputText('total_work_hours')
                 ->sortable(),
 
             Column::make('Status', 'is_permission')

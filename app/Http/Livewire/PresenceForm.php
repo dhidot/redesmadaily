@@ -21,7 +21,7 @@ class PresenceForm extends Component
 
     public function sendEnterPresence()
     {
-        if ($this->attendance->data->is_start && !$this->attendance->data->is_using_qrcode) { // sama (harus) dengan view
+        if ($this->attendance->data->is_start) { // sama (harus) dengan view
             Presence::create([
                 "user_id" => auth()->user()->id,
                 "attendance_id" => $this->attendance->id,
@@ -40,8 +40,8 @@ class PresenceForm extends Component
 
     public function sendOutPresence()
     {
-        // jika absensi sudah jam pulang (is_end) dan tidak menggunakan qrcode (kebalikan)
-        if (!$this->attendance->data->is_end && $this->attendance->data->is_using_qrcode) // sama (harus) dengan view
+        // jika absensi sudah jam pulang (is_end)
+        if (!$this->attendance->data->is_end) // sama (harus) dengan view
             return false;
 
         $presence = Presence::query()
@@ -59,6 +59,9 @@ class PresenceForm extends Component
         $presence->update(['presence_out_time' => now()->toTimeString()]);
         return $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => "Atas nama '" . auth()->user()->name . "' berhasil melakukan absensi pulang."]);
     }
+
+    // Send total working time
+
 
     public function render()
     {

@@ -20,6 +20,8 @@ return new class extends Migration
             $table->date("presence_date");
             $table->time("presence_enter_time");
             $table->time("presence_out_time")->nullable();
+            // work time value from create_at - update_at
+            $table->time("work_time")->nullable();
             $table->timestamps();
         });
     }

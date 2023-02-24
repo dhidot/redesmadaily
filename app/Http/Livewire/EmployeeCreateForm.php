@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Position;
+use App\Mail\EmployeeCreated;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Department;
@@ -73,9 +74,12 @@ class EmployeeCreateForm extends Component
         $affected = 0;
         foreach ($this->employees as $employee) {
             if (trim($employee['password']) === '') $employee['password'] = '123';
+            // $passwordBeforeHash = $employee['password'];
             $employee['password'] = Hash::make($employee['password']);
             User::create($employee);
             $affected++;
+            // kirim email ke user
+            // Mail::to($employee['email'])->send(new \App\Mail\EmployeeCreated($employee['name'], $passwordBeforeHash));
         }
 
         redirect()->route('employees.index')->with('success', "Ada ($affected) data karyawaan yang berhasil ditambahkan.");

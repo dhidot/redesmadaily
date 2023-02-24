@@ -74,11 +74,8 @@
                     substr($attendance->data->batas_end_time,0,-3 )}}</span>
             </div>
 
-            @if (!$attendance->data->is_using_qrcode)
             <livewire:presence-form :attendance="$attendance" :data="$data" :holiday="$holiday">
-                @else
-                @include('home.partials.qrcode-presence')
-                @endif
+                
         </div>
     </div>
 </div>

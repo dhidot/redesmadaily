@@ -6,6 +6,14 @@
 <div class="row">
     <div class="col-md-7">
         <ul class="list-group">
+            @if ($attendances->isEmpty())
+            <li class="list-group-item d-flex justify-content-between align-items-start py-3">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">Tidak Ada Form Presensi</div>
+                    <p class="mb-0">Admin belum membuat Form Presensi.</p>
+                </div>
+            </li>
+            @endif
             @foreach ($attendances as $attendance)
             <a href="{{ route('presences.show', $attendance->id) }}"
                 class="list-group-item d-flex justify-content-between align-items-start py-3">
