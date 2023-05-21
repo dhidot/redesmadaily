@@ -45,7 +45,6 @@
         ini.</a></small>
 @endif
 
-
 <div>
     @foreach ($notPresentData as $data)
     <div class="p-3 rounded bg-light border my-3 d-flex align-items-center justify-content-between">
@@ -70,13 +69,15 @@
             </thead>
             <tbody>
                 @foreach ($data['users'] as $user)
+                @if ($user['position']['id'] == $attendance->positions->pluck('pivot.position_id')->first())
+                {{-- show only user with position that same as position_id in attendance_position table in database --}}
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $user['name'] }}</td>
                     <td>
-                        <a href="mailto:{{ $user['email'] }}">{{ $user['email'] }}</a>
+                        <a href="mailto:{{ $user['email'] }}" style="text-decoration:none">{{ $user['email'] }}</a>
                         <span class="fw-bold"> / </span>
-                        <a href="tel:{{ $user['phone'] }}">{{ $user['phone'] }}</a>
+                        <a href="tel:{{ $user['phone'] }}" style="text-decoration:none">{{ $user['phone'] }}</a>
                     </td>
                     <td>{{ $user['position']['name'] }}</td>
                     <td>
@@ -88,9 +89,15 @@
                         </form>
                     </td>
                 </tr>
+                @endif
                 @endforeach
             </tbody>
         </table>
+        @if (count($data['users']) === 0)
+        <div class="text-center">
+            <small class="text-success fw-bold">Semua karyawan telah melakukan presensi.</small>
+        </div>
+        @endif
     </div>
     @endforeach
 </div>

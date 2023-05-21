@@ -18,6 +18,9 @@
     {{-- Bootstrap Icons --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <title>{{ $title }} | Redesmanagement</title>
+
+    {{-- My Css --}}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
@@ -42,12 +45,13 @@
                 label: 'Presensi',
                 data: [{{ $staffPresentCount }}, {{ $staffOnly - $staffPresentCount }}],
                 backgroundColor: [
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
+                    // blue and red color
+                    'rgba(0, 149, 255, 0.58)',
+                    'rgba(255, 129, 133, 0.58)'
                 ],
                 borderColor: [
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 99, 132, 1)',
+                    'rgba(0, 149, 255, 0.58)',
+                    'rgba(255, 129, 133, 0.58)'
                 ],
                 borderWidth: 1
             }]
@@ -75,12 +79,13 @@
                 label: 'Presensi',
                 data: [{{ $internshipPresentCount }}, {{ $internshipOnly - $internshipPresentCount }}],
                 backgroundColor: [
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(0, 149, 255, 0.58)',
+                    'rgba(255, 129, 133, 0.58)'
+,
                 ],
                 borderColor: [
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 99, 132, 1)',
+                    'rgba(0, 149, 255, 0.58)',
+                    'rgba(255, 129, 133, 0.58)'
                 ],
                 borderWidth: 1
             }]
@@ -93,6 +98,40 @@
                 title: {
                     display: true,
                     text: 'Presensi Internship'
+                }
+            }
+        }
+    });
+
+    // part time precense
+    var ctxPartTime = document.getElementById('partTimePresence').getContext('2d');
+    var myChart2 = new Chart(ctxPartTime, {
+        type: 'doughnut',
+        data: {
+            labels: ['Hadir', 'Tidak Hadir'],
+            datasets: [{
+                label: 'Presensi',
+                data: [{{ $partTimePresentCount }}, {{ $partTimeOnly - $partTimePresentCount }}],
+                backgroundColor: [
+                    'rgba(0, 149, 255, 0.58)',
+                    'rgba(255, 129, 133, 0.58)'
+,
+                ],
+                borderColor: [
+                    'rgba(0, 149, 255, 0.58)',
+                    'rgba(255, 129, 133, 0.58)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                title: {
+                    display: true,
+                    text: 'Presensi Karyawan Part Time'
                 }
             }
         }

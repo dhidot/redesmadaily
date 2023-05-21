@@ -15,7 +15,7 @@ class HolidayController extends Controller
     public function index()
     {
         return view('holidays.index', [
-            'title' => 'Holidays',
+            'title' => 'Hari Libur',
         ]);
     }
 
@@ -27,7 +27,7 @@ class HolidayController extends Controller
     public function create()
     {
         return view('holidays.create', [
-            'title' => 'Create Holiday',
+            'title' => 'Tambah Data Hari Libur',
         ]);
     }
 
@@ -71,7 +71,7 @@ class HolidayController extends Controller
             ->get();
 
         return view('holidays.edit', [
-            'title' => 'Edit Holidays',
+            'title' => 'Edit Hari Libur',
             'holidays' => $holidays,
         ]);
     }

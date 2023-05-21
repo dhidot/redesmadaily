@@ -97,6 +97,7 @@ final class PresenceTable extends PowerGridComponent
             ->addColumn("presence_date")
             ->addColumn("presence_enter_time")
             ->addColumn("presence_out_time", fn (Presence $model) => $model->presence_out_time ?? '<span class="badge text-bg-danger">Belum Absensi Pulang</span>')
+            ->addColumn("isPresence", fn (Presence $model) => $model->presence_out_time ? '<span class="badge text-bg-success">Hadir</span>' : '<span class="badge text-bg-warning">Belum Absensi Pulang</span>')
             // get work time detail hour:minute:second format from presence_out_time - presence_enter_time
             ->addColumn("work_time", fn (Presence $model) => $model->presence_out_time ? Carbon::parse($model->presence_out_time)->diffAsCarbonInterval(Carbon::parse($model->presence_enter_time)) : '<span class="badge text-bg-danger">Belum Absensi Pulang</span>')
             ->addColumn('created_at')
@@ -126,41 +127,33 @@ final class PresenceTable extends PowerGridComponent
 
             Column::make('Nama', 'user_name')
                 ->searchable()
-                ->makeInputText('users.name')
                 ->sortable(),
 
             Column::make('Tanggal Hadir', 'presence_date')
-                ->makeInputDatePicker()
                 ->searchable()
                 ->sortable(),
 
             Column::make('Jam Absen Masuk', 'presence_enter_time')
                 ->searchable()
-                // ->makeInputRange('presence_enter_time') // terlalu banyak menggunakan bandwidth (ukuran data yang dikirim terlalu besar)
-                ->makeInputText('presence_enter_time')
                 ->sortable(),
 
             Column::make('Jam Absen Pulang', 'presence_out_time')
                 ->searchable()
-                // ->makeInputRange('presence_out_time') // ini juga
-                ->makeInputText('presence_out_time')
                 ->sortable(),
 
             // Total Jam Kerja
             Column::make('Total Jam Kerja', 'work_time')
                 ->searchable()
-                ->makeInputText('total_work_hours')
                 ->sortable(),
 
-            Column::make('Status', 'is_permission')
+            Column::make('Status', 'isPresence')
                 ->sortable(),
 
-            Column::make('Created at', 'created_at')
-                ->hidden(),
+            // Column::make('Created at', 'created_at')
+            //     ->hidden(),
 
-            Column::make('Created at', 'created_at_formatted')
-                ->makeInputDatePicker()
-                ->searchable()
+            // Column::make('Created at', 'created_at_formatted')
+            //     ->searchable()
         ];
     }
 

@@ -12,7 +12,7 @@ class AttendanceAbstract extends Component
     public $position_ids = [];
 
     protected $rules = [
-        'attendance.title' => 'required|string|min:6',
+        'attendance.title' => 'required|string|min:3',
         'attendance.description' => 'required|string|max:500',
         'attendance.start_time' => 'required|date_format:H:i',
         'attendance.batas_start_time' => 'required|date_format:H:i|after:start_time',

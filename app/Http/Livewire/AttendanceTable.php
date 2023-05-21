@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Attendance;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,6 +14,7 @@ use PowerComponents\LivewirePowerGrid\{Button, Column, Detail, Exportable, Foote
 final class AttendanceTable extends PowerGridComponent
 {
     use ActionButton;
+    use LivewireAlert;
 
     //Table sort field
     public string $sortField = 'attendances.created_at';
@@ -45,13 +47,30 @@ final class AttendanceTable extends PowerGridComponent
             $ids = $this->checkedValues();
 
             if (!$ids)
-                return $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin dihapus terlebih dahulu.']);
-
+                return $this->alert('error', 'Pilih data yang ingin dihapus terlebih dahulu.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
             try {
                 Attendance::whereIn('id', $ids)->delete();
-                $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data absensi berhasi dihapus.']);
+                $this->alert('success', 'Data berhasil dihapus.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
             } catch (\Illuminate\Database\QueryException $ex) {
-                $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Data gagal dihapus, kemungkinan ada data lain yang menggunakan data tersebut.']);
+                $this->alert('error', 'Data gagal dihapus.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
             }
         }
     }
@@ -160,19 +179,16 @@ final class AttendanceTable extends PowerGridComponent
 
             Column::make('Nama', 'title')
                 ->searchable()
-                ->makeInputText('title')
                 ->sortable(),
 
             Column::make('Keterangan', 'description'),
 
             Column::make('Waktu Absen Masuk', 'start_time', 'start_time')
                 ->searchable()
-                ->makeInputText('start_time')
                 ->sortable(),
 
             Column::make('Waktu Absen Keluar', 'end_time', 'end_time')
                 ->searchable()
-                ->makeInputText('end_time')
                 ->sortable(),
 
             // Column::make('Batas Akhir Absen Masuk', 'batas_start_time', 'batas_start_time')
@@ -194,7 +210,6 @@ final class AttendanceTable extends PowerGridComponent
                 ->hidden(),
 
             Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->makeInputDatePicker()
                 ->searchable()
         ];
     }
@@ -220,38 +235,6 @@ final class AttendanceTable extends PowerGridComponent
                 ->class('badge text-bg-success')
                 ->target('')
                 ->route('attendances.edit', ['id' => 'id']),
-
-            //    Button::make('destroy', 'Delete')
-            //        ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-            //        ->route('attendance.destroy', ['attendance' => 'id'])
-            //        ->method('delete')
         ];
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Actions Rules
-    |--------------------------------------------------------------------------
-    | Enable the method below to configure Rules for your Table and Action Buttons.
-    |
-    */
-
-    /**
-     * PowerGrid Attendance Action Rules.
-     *
-     * @return array<int, RuleActions>
-     */
-
-    /*
-    public function actionRules(): array
-    {
-       return [
-
-           //Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($attendance) => $attendance->id === 1)
-                ->hide(),
-        ];
-    }
-    */
 }

@@ -6,6 +6,7 @@ use App\Models\Holiday;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
@@ -13,6 +14,7 @@ use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Heade
 final class HolidayTable extends PowerGridComponent
 {
     use ActionButton;
+    use LivewireAlert;
 
     protected function getListeners()
     {
@@ -45,13 +47,31 @@ final class HolidayTable extends PowerGridComponent
             $ids = $this->checkedValues();
 
             if (!$ids)
-                return $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin dihapus terlebih dahulu.']);
+                return $this->alert('error', 'Pilih data yang ingin dihapus terlebih dahulu.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
 
             try {
                 Holiday::whereIn('id', $ids)->delete();
-                $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data hari libur berhasi dihapus.']);
+                $this->alert('success', 'Data berhasil dihapus.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
             } catch (\Illuminate\Database\QueryException $ex) {
-                $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Data gagal dihapus, kemungkinan ada data lain yang menggunakan data tersebut.']);
+                $this->alert('error', 'Data gagal dihapus, ada data lain yang menggunakan data ini', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
             }
         }
     }
@@ -62,11 +82,19 @@ final class HolidayTable extends PowerGridComponent
             $ids = $this->checkedValues();
 
             if (!$ids)
-                return $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin diedit terlebih dahulu.']);
+                return $this->alert('warning', 'Pilih data yang ingin diedit terlebih dahulu.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
 
             $ids = join('-', $ids);
             // return redirect(route('holidays.edit', ['ids' => $ids])); // tidak berfungsi/menredirect
-            return $this->dispatchBrowserEvent('redirect', ['url' => route('holidays.edit', ['ids' => $ids])]);
+            return $this->dispatchBrowserEvent('redirect', [
+                'url' => route('holidays.edit', ['ids' => $ids])
+            ]);
         }
     }
 
@@ -171,27 +199,23 @@ final class HolidayTable extends PowerGridComponent
 
             Column::make('Nama Hari Libur', 'title')
                 ->searchable()
-                ->makeInputText('title')
                 ->sortable(),
 
             Column::make('Keterangan', 'description')
                 ->searchable()
-                ->makeInputText('description')
                 ->sortable(),
 
             Column::make('Tanggal Libur', 'holiday_date')
                 ->hidden(),
 
             Column::make('Tanggal Libur', 'holiday_date_formatted', 'holiday_date')
-                ->makeInputDatePicker()
                 ->searchable(),
 
             Column::make('Created at', 'created_at')
                 ->hidden(),
 
-            Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->makeInputDatePicker()
-                ->searchable()
+            // Column::make('Created at', 'created_at_formatted', 'created_at')
+            //     ->searchable()
         ];
     }
 

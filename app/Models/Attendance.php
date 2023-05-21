@@ -22,6 +22,7 @@ class Attendance extends Model
         'batas_start_time',
         'end_time',
         'batas_end_time',
+        'code'
     ];
 
     protected $appends = ['data'];
@@ -49,6 +50,7 @@ class Attendance extends Model
                     "now" => $now->format("H:i:s"),
                     "is_start" => $startTime <= $now && $batasStartTime >= $now,
                     "is_end" => $endTime <= $now && $batasEndTime >= $now,
+                    'is_using_qrcode' => $this->code ? true : false,
                     'is_holiday_today' => $isHolidayToday->isNotEmpty()
                 ];
             },
@@ -70,5 +72,10 @@ class Attendance extends Model
     public function presences()
     {
         return $this->hasMany(Presence::class);
+    }
+
+    public function AttendancePosition()
+    {
+        return $this->hasMany(AttendancePosition::class);
     }
 }

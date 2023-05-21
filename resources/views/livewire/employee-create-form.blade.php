@@ -23,9 +23,10 @@
                 </div>
                 <div class="mb-3">
                     <x-form-label id="password{{ $i }}"
-                        label='Password Karyawaan {{ $i + 1 }} (default: "123" jika tidak diisi)' required="false" />
+                        label='Password Karyawaan {{ $i + 1 }} (Generate otomatis oleh sistem)' required="false" />
+                        {{-- Pasword placeholdear is from the livewire --}}
                     <x-form-input type="password" id="password{{ $i }}" name="password{{ $i }}"
-                        wire:model.defer="employees.{{ $i }}.password" required="false" />
+                        wire:model.defer="employees.{{ $i }}.password" placeholder="Enter Password" disabled required="false" />
                     <x-form-error key=" employees.{{ $i }}.password" />
                 </div>
                 <div class="mb-3">

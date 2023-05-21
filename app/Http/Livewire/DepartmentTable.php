@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Department;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,6 +15,7 @@ use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Heade
 final class DepartmentTable extends PowerGridComponent
 {
     use ActionButton;
+    use LivewireAlert;
 
     public string $sortField = 'departments.created_at';
     public string $sortDirection = 'desc';
@@ -24,18 +26,19 @@ final class DepartmentTable extends PowerGridComponent
             parent::getListeners(),
             [
                 'bulkCheckedDelete',
-                'bulkCheckedEdit'
+                'bulkCheckedEdit',
             ]
         );
     }
 
+
     public function header(): array
     {
         return [
-            Button::add('bulk-checked')
-                ->caption(__('Hapus'))
+            Button::make('destroy', 'Delete')
                 ->class('btn btn-danger border-0')
-                ->emit('bulkCheckedDelete', []),
+                ->emit('bulkCheckedDelete', ['key' => 'id']),
+
             Button::add('bulk-edit-checked')
                 ->caption(__('Edit'))
                 ->class('btn btn-success border-0')
@@ -49,13 +52,31 @@ final class DepartmentTable extends PowerGridComponent
             $ids = $this->checkedValues();
 
             if (!$ids)
-                return $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin dihapus terlebih dahulu.']);
+                return $this->alert('warning', 'Pilih data yang ingin dihapus terlebih dahulu.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
 
             try {
                 Department::whereIn('id', $ids)->delete();
-                $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data Departemen berhasil dihapus.']);
+                $this->alert('success', 'Data berhasil dihapus.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
             } catch (\Illuminate\Database\QueryException $ex) {
-                $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Data gagal dihapus, kemungkinan ada data lain yang menggunakan data tersebut.']);
+                $this->alert('error', 'Data gagal dihapus, kemungkinan ada data lain yang menggunakan data tersebut.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
             }
         }
     }
@@ -66,13 +87,20 @@ final class DepartmentTable extends PowerGridComponent
             $ids = $this->checkedValues();
 
             if (!$ids)
-                return $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin diedit terlebih dahulu.']);
+                return $this->alert('warning', 'Pilih data yang ingin diedit terlebih dahulu.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
 
             $ids = join('-', $ids);
             // return redirect(route('positions.edit', ['ids' => $ids])); // tidak berfungsi/menredirect
             return $this->dispatchBrowserEvent('redirect', ['url' => route('departments.edit', ['ids' => $ids])]);
         }
     }
+
 
     /*
     |--------------------------------------------------------------------------

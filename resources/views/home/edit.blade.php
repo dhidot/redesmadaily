@@ -22,12 +22,12 @@
                                 @error('old_password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                                <label for="oldPasswordInput">Old Password</label>
+                                <label for="oldPasswordInput">Password Lama</label>
                             </div>
                             <div class="form-floating mb-3">
                                 <input name="new_password" id="floatingPassword" type="password" class="form-control @error('new_password') is-invalid @enderror" id="newPasswordInput"
                                     placeholder="New Password">
-                                <label for="newPasswordInput" class="form-label">New Password</label>
+                                <label for="newPasswordInput" class="form-label">Password Baru</label>
                                 @error('new_password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -35,9 +35,9 @@
                             <div class="form-floating mb-3">
                                 <input name="new_password_confirmation" id="floatingPassword" type="password" class="form-control" id="confirmNewPasswordInput"
                                     placeholder="Confirm New Password">
-                                <label for="confirmNewPasswordInput" class="form-label">Confirm New Password</label>
+                                <label for="confirmNewPasswordInput" class="form-label">Konfirmasi Password Baru</label>
                             </div>
-                            <button class="btn btn-success">Submit</button>
+                            <button class="btn btn-success">Simpan</button>
                         </div>
                         
                     </form>

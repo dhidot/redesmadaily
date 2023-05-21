@@ -3,9 +3,11 @@
 namespace App\Http\Livewire;
 
 use App\Models\Position;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
+use PhpParser\Node\Expr\PostDec;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
@@ -13,19 +15,18 @@ use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Heade
 final class PositionTable extends PowerGridComponent
 {
     use ActionButton;
+    use LivewireAlert;
+
 
     public string $sortField = 'positions.created_at';
     public string $sortDirection = 'desc';
 
     protected function getListeners()
     {
-        return array_merge(
-            parent::getListeners(),
-            [
-                'bulkCheckedDelete',
-                'bulkCheckedEdit'
-            ]
-        );
+        return [
+            'bulkCheckedDelete',
+            'bulkCheckedEdit',
+        ];
     }
 
     public function header(): array
@@ -48,13 +49,30 @@ final class PositionTable extends PowerGridComponent
             $ids = $this->checkedValues();
 
             if (!$ids)
-                return $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin dihapus terlebih dahulu.']);
-
+                return $this->alert('warning', 'Pilih data yang ingin dihapus terlebih dahulu.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
             try {
                 Position::whereIn('id', $ids)->delete();
-                $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data jabatan berhasi dihapus.']);
+                $this->alert('success', 'Data berhasil dihapus.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
             } catch (\Illuminate\Database\QueryException $ex) {
-                $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Data gagal dihapus, kemungkinan ada data lain yang menggunakan data tersebut.']);
+                $this->alert('error', 'Data gagal dihapus, ada data lain yang menggunakan data ini', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
             }
         }
     }
@@ -65,8 +83,13 @@ final class PositionTable extends PowerGridComponent
             $ids = $this->checkedValues();
 
             if (!$ids)
-                return $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin diedit terlebih dahulu.']);
-
+                return $this->alert('warning', 'Pilih data yang ingin diedit terlebih dahulu.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
             $ids = join('-', $ids);
             // return redirect(route('positions.edit', ['ids' => $ids])); // tidak berfungsi/menredirect
             return $this->dispatchBrowserEvent('redirect', ['url' => route('positions.edit', ['ids' => $ids])]);
@@ -121,16 +144,6 @@ final class PositionTable extends PowerGridComponent
     |
     */
 
-    /**
-     * Relationship search.
-     *
-     * @return array<string, array<int, string>>
-     */
-    public function relationSearch(): array
-    {
-        return [];
-    }
-
     /*
     |--------------------------------------------------------------------------
     |  Add Column
@@ -165,74 +178,17 @@ final class PositionTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            // Column::make('ID', 'id')
-            //     ->searchable()
-            //     ->sortable(),
 
             Column::make('Name', 'name')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
 
             Column::make('Created at', 'created_at')
                 ->hidden(),
 
-            Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->makeInputDatePicker()
-                ->searchable()
+            // Column::make('Created at', 'created_at_formatted', 'created_at')
+            //     ->makeInputDatePicker()
+            //     ->searchable()
         ];
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Actions Method
-    |--------------------------------------------------------------------------
-    | Enable the method below only if the Routes below are defined in your app.
-    |
-    */
-
-    /**
-     * PowerGrid Position Action Buttons.
-     *
-     * @return array<int, Button>
-     */
-
-    public function actions(): array
-    {
-        return [
-            // Button::make('edit', 'Edit')
-            //     ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-            //     ->route('position.edit', ['position' => 'id']),
-
-            // Button::make('destroy', 'Delete')
-            //     ->class('badge text-bg-danger border-0')
-            //     ->route('positions.destroy', ['position' => 'id'])
-            //     ->method('delete')
-        ];
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Actions Rules
-    |--------------------------------------------------------------------------
-    | Enable the method below to configure Rules for your Table and Action Buttons.
-    |
-    */
-
-    /**
-     * PowerGrid Position Action Rules.
-     *
-     * @return array<int, RuleActions>
-     */
-
-    /*
-    public function actionRules(): array
-    {
-       return [
-
-           //Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($position) => $position->id === 1)
-                ->hide(),
-        ];
-    }
-    */
 }

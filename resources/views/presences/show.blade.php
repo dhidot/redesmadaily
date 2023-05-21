@@ -13,8 +13,12 @@
                 <h6 class="card-subtitle mb-2 text-muted">{{ $attendance->description }}</h6>
                 <div class="d-flex align-items-center gap-2">
                     @include('partials.attendance-badges')
-                    <a href="{{ route('presences.not-present', $attendance->id) }}" class="badge text-bg-danger">Belum
-                        Absen</a>
+                    <a href="{{ route('presences.not-present-in', $attendance->id) }}" class="badge text-bg-warning" style="text-decoration: none">Belum
+                        Presensi</a>
+                    @if ($attendance->code)
+                    <a href="{{ route('presences.qrcode', ['code' => $attendance->code]) }}"
+                        class="badge text-bg-info" style="text-decoration: none">QRCode</a>
+                    @endif
                 </div>
             </div>
 

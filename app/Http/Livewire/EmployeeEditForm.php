@@ -6,6 +6,7 @@ use App\Http\Traits\useUniqueValidation;
 use App\Models\Position;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Department;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -17,6 +18,7 @@ class EmployeeEditForm extends Component
     public $employees;
     public Collection $roles;
     public Collection $positions;
+    public Collection $departments;
 
     public function mount(Collection $employees)
     {
@@ -41,15 +43,31 @@ class EmployeeEditForm extends Component
     {
         $roleIdRuleIn = join(',', $this->roles->pluck('id')->toArray());
         $positionIdRuleIn = join(',', $this->positions->pluck('id')->toArray());
+        $departmentIdRuleIn = join(',', $this->departments->pluck('id')->toArray());
 
-        $this->validate([
-            'employees.*.name' => 'required',
-            'employees.*.email' => 'required|email',
-            'employees.*.phone' => 'required',
-            'employees.*.password' => '',
-            'employees.*.role_id' => 'required|in:' . $roleIdRuleIn,
-            'employees.*.position_id' => 'required|in:' . $positionIdRuleIn,
-        ]);
+        $this->validate(
+            [
+                'employees.*.name' => 'required',
+                'employees.*.email' => 'required|email|unique:users,email',
+                'employees.*.phone' => 'required|unique:users,phone',
+                'employees.*.password' => '',
+                'employees.*.department_id' => 'required|in:' . $departmentIdRuleIn,
+                'employees.*.role_id' => 'required|in:' . $roleIdRuleIn,
+                'employees.*.position_id' => 'required|in:' . $positionIdRuleIn,
+            ],
+            [
+                'employees.*.name.required' => 'Nama harus diisi',
+                'employees.*.email.required' => 'Email harus diisi',
+                'employees.*.email.email' => 'Format email harus sesuai',
+                'employees.*.email.unique' => 'Alamat email sudah ada yang menggunakan',
+                'employees.*.phone.required' => 'Nomor telepon harus diisi',
+                'employees.*.phone.unique' => 'Nomor telpon sudah ada yang menggunakan',
+                'employees.*.password' => '',
+                'employees.*.department_id' => 'required|in:' . $departmentIdRuleIn,
+                'employees.*.role_id' => 'required|in:' . $roleIdRuleIn,
+                'employees.*.position_id' => 'required|in:' . $positionIdRuleIn,
+            ]
+        );
 
         if (!$this->isUniqueOnLocal('phone', $this->employees)) {
             $this->dispatchBrowserEvent('livewire-scroll', ['top' => 0]);

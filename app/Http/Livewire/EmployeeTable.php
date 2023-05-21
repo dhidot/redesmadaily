@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Position;
 use App\Models\Role;
 use App\Models\User;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,6 +16,7 @@ use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Heade
 final class EmployeeTable extends PowerGridComponent
 {
     use ActionButton;
+    use LivewireAlert;
 
     //Table sort field
     public string $sortField = 'users.created_at';
@@ -51,17 +53,41 @@ final class EmployeeTable extends PowerGridComponent
             $ids = $this->checkedValues();
 
             if (!$ids)
-                return $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin dihapus terlebih dahulu.']);
+                return $this->alert('warning', 'Pilih data yang ingin dihapus terlebih dahulu.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
 
             if (in_array(auth()->user()->id, $ids))
-                return $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Anda tidak diizinkan untuk menghapus data yang sedang anda gunakan untuk login.']);
+                return $this->alert('error', 'Tidak dapat menghapus akun sendiri.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
 
 
             try {
                 User::whereIn('id', $ids)->delete();
-                $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data karyawaan berhasi dihapus.']);
+                $this->alert('success', 'Data berhasil dihapus.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
             } catch (\Illuminate\Database\QueryException $ex) {
-                $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Data gagal dihapus, kemungkinan ada data lain yang menggunakan data tersebut.']);
+                $this->alert('error', 'Data gagal dihapus, ada data lain yang menggunakan data ini', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
             }
         }
     }
@@ -72,7 +98,13 @@ final class EmployeeTable extends PowerGridComponent
             $ids = $this->checkedValues();
 
             if (!$ids)
-                return $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin diedit terlebih dahulu.']);
+                return $this->alert('error', 'Pilih data yang ingin diedit terlebih dahulu.', [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                    'toast' => true,
+                    'text' => '',
+                    'showConfirmButton' => true,
+                ]);
 
             $ids = join('-', $ids);
             // return redirect(route('employees.edit', ['ids' => $ids])); // tidak berfungsi/menredirect

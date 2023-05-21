@@ -13,6 +13,7 @@ class DepartmentEditForm extends Component
 
     public function mount(Collection $departments)
     {
+        // $this->department = $department;
         $this->departments = []; // hapus departments collection
         foreach ($departments as $department) {
             $this->departments[] = ['id' => $department->id, 'name' => $department->name];
@@ -26,6 +27,18 @@ class DepartmentEditForm extends Component
         $departments = array_filter($this->departments, function ($a) {
             return trim($a['name']) !== "";
         });
+
+        // buat validasi jika input sama dengan nilai awal (tidak diubah) maka tidak perlu diubah
+        $this->validate(
+            [
+                'departments.*.name' => 'required|unique:departments|min:6',
+            ],
+            [
+                'departments.*.name.required' => 'Setidaknya input departemen pertama wajib diisi.',
+                'departments.*.name.unique' => 'Nama departemen tidak boleh sama.',
+                'departments.*.name.min' => 'Nama departemen minimal 6 huruf'
+            ]
+        );
 
         $affected = 0;
         foreach ($departments as $department) {

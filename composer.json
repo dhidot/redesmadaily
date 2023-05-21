@@ -11,11 +11,14 @@
         "php": "^8.0.2",
         "barryvdh/laravel-dompdf": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
+        "jantinnerezo/livewire-alert": "^2.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.11",
         "power-components/livewire-powergrid": "^3.7",
+        "realrashid/sweet-alert": "^6.0",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "wireui/wireui": "^1.17"
     },
     "require-dev": {

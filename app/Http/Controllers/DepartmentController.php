@@ -32,40 +32,11 @@ class DepartmentController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreDepartmentRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreDepartmentRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Department  $department
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Department $department)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Department  $department
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Department $department)
+    public function edit()
     {
         $ids = request('ids');
-        if (!$ids) {
+        if (!$ids)
             return redirect()->back();
-        }
         $ids = explode('-', $ids);
 
         $departments = Department::query()
@@ -73,7 +44,7 @@ class DepartmentController extends Controller
             ->get();
 
         return view('departments.edit', [
-            'title' => 'Edit Data Jabatan',
+            'title' => 'Edit Data Departemen / Divisi',
             'departments' => $departments
         ]);
     }

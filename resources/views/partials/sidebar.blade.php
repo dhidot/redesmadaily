@@ -1,7 +1,7 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse mt-2">
     <div class="row">
         <div class="position-sticky pt-3">
-            <ul class="nav flex-column text-center">
+            <ul class="nav flex-column">
                 @if (auth()->user()->isAdmin())
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('dashboard.*') ? 'active' : '' }}" aria-current="page"
@@ -45,38 +45,33 @@
                     Data Kehadiran
                 </a>
             </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('holidays.*') ? 'active' : '' }}"
-                    href="{{ route('holidays.index') }}">
-                        <i class="bi bi-calendar-event-fill"></i>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('holidays.*') ? 'active' : '' }}"
+                href="{{ route('holidays.index') }}">
+                    <i class="bi bi-calendar-event-fill"></i>
                         Hari Libur
-                    </a>
-                </li>
-                @else
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('home.index') ? 'active' : '' }}" 
-                        href="{{ route('home.index') }}">
-                        <i class="bi bi-speedometer2"></i>
-                        Home
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('home.profile') ? 'active' : '' }}" 
-                        href="{{ route('home.profile') }}">
-                        <i class="bi bi-person-circle"></i>
-                        Profil
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('home.edit-password') ? 'active' : '' }}" 
-                        href="{{ route('home.edit-password') }}">
-                        <i class="bi bi-pencil-square"></i>
-                        Change Password
-                    </a>
-                </li>
-                @endif
+                </a>
+            </li>
+            @else
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('home.*') ? 'active' : '' }}" 
+                    href="{{ route('home.index') }}">
+                    <i class="bi bi-speedometer2"></i>
+                    Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('home.edit-password') ? 'active' : '' }}" 
+                    href="{{ route('home.edit-password') }}">
+                    <i class="bi bi-pencil-square"></i>
+                    Change Password
+                </a>
+            </li>
+            @endif
             </ul>
         </div>
+    </div>
+    <div class="row text-center mh-100 align-items-center">
     </div>
     <div class="row text-center  mh-100 align-items-bottom">
         <form action="{{ route('auth.logout') }}" method="POST">

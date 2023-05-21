@@ -21,6 +21,9 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('jquery/jquery-3.6.0.min.js') }}"></script>
+@livewireScripts
 @powerGridScripts
+<script src="{{ asset('jquery/jquery-3.6.0.min.js') }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<x-livewire-alert::scripts />
 @endpush

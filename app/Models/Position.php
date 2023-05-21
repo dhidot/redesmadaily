@@ -9,6 +9,7 @@ class Position extends Model
 {
     const MANAGER_POSITION_ID = 2;
     const INTERNSHIP_POSITION_ID = 4;
+    const PART_TIME_POSITION_ID = 5;
     use HasFactory;
 
     protected $fillable = ['name'];

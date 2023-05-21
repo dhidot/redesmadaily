@@ -33,8 +33,12 @@ class PositionCreateForm extends Component
         // setidaknya input pertama yang hanya required,
         // karena nanti akan difilter apakah input kedua dan input selanjutnya apakah berisi
         $this->validate([
-            'positions.0.name' => 'required'
-        ], ['positions.0.name.required' => 'Setidaknya input jabatan pertama wajib diisi.']);
+            'positions.*.name' => 'required|unique:positions,name|min:4'
+        ], [
+            'positions.*.name.required' => 'Setidaknya input jabatan pertama wajib diisi.',
+            'positions.*.name.unique' => 'Jabatan sudah ada.',
+            'positions.*.name.min' => 'Jabatan minimal terdiri dari 4 huruf'
+        ]);
 
         // ambil input/request dari position yang berisi
         $positions = array_filter($this->positions, function ($a) {

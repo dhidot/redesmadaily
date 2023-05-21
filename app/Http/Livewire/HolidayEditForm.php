@@ -29,11 +29,17 @@ class HolidayEditForm extends Component
 
     public function saveHolidays()
     {
-        $this->validate([
-            'holidays.*.title' => 'required',
-            'holidays.*.description' => 'required',
-            'holidays.*.holiday_date' => 'required|date',
-        ]);
+        $this->validate(
+            [
+                'holidays.*.title' => 'required|unique:holidays',
+                'holidays.*.description' => 'required',
+                'holidays.*.holiday_date' => 'required|date',
+            ],
+            [
+                'holidays.*.title.required' => 'Judul hari libur harus diisi.',
+                'holidays.*.title.unique' => 'Judul hari libur sudah ada.',
+            ]
+        );
 
         if (!$this->isUniqueOnLocal('holiday_date', $this->holidays)) {
             $this->dispatchBrowserEvent('livewire-scroll', ['top' => 0]);

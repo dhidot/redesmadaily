@@ -13,7 +13,7 @@
         @foreach ($departments as $department)
         <div class="mb-3 department-relative">
             <x-form-label id="name{{ $department['id'] }}"
-                label="Nama Jabatan {{ $loop->iteration }} (ID: {{ $department['id'] }})" />
+                label="Nama Jabatan {{ $loop->iteration }}" />
             <div class="d-flex align-items-center">
                 <x-form-input id="name{{ $department['id'] }}" name="name{{ $department['id'] }}"
                     wire:model.defer="departments.{{ $loop->index }}.name" value="{{ $department['name'] }}" />

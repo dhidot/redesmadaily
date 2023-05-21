@@ -32,7 +32,7 @@ class PositionController extends Controller
         ]);
     }
 
-    public function edit(Position $position)
+    public function edit()
     {
         $ids = request('ids');
         if (!$ids) {

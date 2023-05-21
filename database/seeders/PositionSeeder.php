@@ -20,6 +20,8 @@ class PositionSeeder extends Seeder
             ["name" => "Staff"],
             ["name" => "Manager"],
             ["name" => "Operator"],
+            ["name" => "Internship"],
+            ["name" => "Part Time"]
         ]);
     }
 }

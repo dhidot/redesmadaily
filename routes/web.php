@@ -38,24 +38,31 @@ Route::middleware('auth')->group(function () {
 
         // Presence
         Route::resource('/presences', PresenceController::class)->only(['index']);
+        Route::get('/presences/qrcode', [PresenceController::class, 'showQrcode'])->name('presences.qrcode');
+        Route::get('/presences/qrcode/download-pdf', [PresenceController::class, 'downloadQrCodePDF'])->name('presences.qrcode.download-pdf');
         Route::get('/presences/{attendance}', [PresenceController::class, 'show'])->name('presences.show');
 
         // not present data
-        Route::get('/presences/{attendance}/not-present', [PresenceController::class, 'notPresent'])->name('presences.not-present');
-        Route::post('/presences/{attendance}/not-present', [PresenceController::class, 'notPresent']);
+        Route::get('/presences/{attendance}/not-present-in', [PresenceController::class, 'notPresentIn'])->name('presences.not-present-in');
+        Route::post('/presences/{attendance}/not-present-in', [PresenceController::class, 'notPresentIn']);
 
         // present (url untuk menambahkan/mengubah user yang tidak hadir menjadi hadir)
-        Route::post('/presences/{attendance}/present', [PresenceController::class, 'presentUser'])->name('presences.present');
+        Route::post('/presences/{attendance}/present', [PresenceController::class, 'presentUserIn'])->name('presences.present');
+
+        // Presensi untuk admin 
+
     });
 
     Route::middleware('role:user')->name('home.')->group(function () {
         Route::get('/', [HomeController::class, 'index'])->name('index');
 
-        Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
-
         // reset Password 
         Route::get('/edit-password', [HomeController::class, 'editPassword'])->name('edit-password');
         Route::post('/edit-password', [HomeController::class, 'updatePassword'])->name('update-password');
+
+        // Presensi menggunakan QRCode
+        Route::post('/absensi/qrcode', [HomeController::class, 'sendEnterPresenceUsingQRCode'])->name('sendEnterPresenceUsingQRCode');
+        Route::post('/absensi/qrcode/out', [HomeController::class, 'sendOutPresenceUsingQRCode'])->name('sendOutPresenceUsingQRCode');
 
         // Presensi
         Route::get('/absensi/{attendance}', [HomeController::class, 'show'])->name('show');

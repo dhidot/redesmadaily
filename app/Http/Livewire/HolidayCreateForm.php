@@ -28,11 +28,16 @@ class HolidayCreateForm extends Component
 
     public function saveHolidays()
     {
-        $this->validate([
-            'holidays.*.title' => 'required',
-            'holidays.*.description' => 'required',
-            'holidays.*.holiday_date' => 'required|date|unique:holidays',
-        ]);
+        $this->validate(
+            [
+                'holidays.*.title' => 'required|unique:holidays',
+                'holidays.*.description' => 'required',
+                'holidays.*.holiday_date' => 'required|date|',
+            ],
+            [
+                'holidays.*.title' => 'Judul hari libur sudah ada.',
+            ]
+        );
 
         // alasan menggunakan create alih2 mengunakan ::insert adalah karena tidak looping untuk menambahkan created_at dan updated_at
         foreach ($this->holidays as $holiday) {

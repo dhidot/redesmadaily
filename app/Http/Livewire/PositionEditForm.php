@@ -26,6 +26,14 @@ class PositionEditForm extends Component
             return trim($a['name']) !== "";
         });
 
+        $this->validate([
+            'positions.0.name' => 'required|unique:positions,name|min:6'
+        ], [
+            'positions.0.name.required' => 'Setidaknya input jabatan pertama wajib diisi.',
+            'positions.0.name.unique' => 'Jabatan sudah ada.',
+            'positions.0.name.min' => 'Jabatan minimal terdiri dari 4 huruf'
+        ]);
+
         $affected = 0;
         foreach ($positions as $position) {
             $affected += Position::find($position['id'])->update(['name' => $position['name']]);

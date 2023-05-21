@@ -21,6 +21,15 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('jquery/jquery-3.6.0.min.js') }}"></script>
+@livewireScripts
 @powerGridScripts
+@include('sweetalert::alert')
+<script src="{{ asset('jquery/jquery-3.6.0.min.js') }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    window.addEventListener('showAlert', event => {
+        alert(event.detail.message);
+    });
+</script>
+<x-livewire-alert::scripts />
 @endpush

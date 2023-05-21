@@ -18,11 +18,11 @@
                         <div class="head mb-3">
                             <h1 class="text-center">
                                 <i class="bi bi-person-circle"></i>
-                                <span>Log In</span>
+                                <span>Login</span>
                             </h1>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="example@gmail.com">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="example@gmail.com" autofocus>
                             <label for="email">Email address</label>
                         </div>
                         <div class="form-floating mb-3">
@@ -40,5 +40,7 @@
 @endsection
 
 @push('script')
+<script src="sweetalert2.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="module" src="{{ asset('js/auth/login.js') }}"></script>
 @endpush

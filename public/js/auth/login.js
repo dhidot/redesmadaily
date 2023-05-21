@@ -19,8 +19,8 @@ loginForm.addEventListener("submit", async function (e) {
     if (res.status == 422) {
         const errorElement = builtValidationElement(data.errors);
         toast.show({
-            title: "Error",
-            body: errorElement,
+            title: "Informasi",
+            body: `<span>${errorElement}</span>`,
             colorClass: toast.TOAST_DANGER,
         });
     }

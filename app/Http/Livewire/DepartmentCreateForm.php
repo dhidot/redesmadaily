@@ -32,16 +32,23 @@ class DepartmentCreateForm extends Component
     {
         // setidaknya input pertama yang hanya required,
         // karena nanti akan difilter apakah input kedua dan input selanjutnya apakah berisi
-        $this->validate([
-            'departments.0.name' => 'required'
-        ], ['departments.0.name.required' => 'Setidaknya input departemen pertama wajib diisi.']);
+        $this->validate(
+            [
+                'departments.0.name' => 'required|unique:departments,name|min:6',
+            ],
+            [
+                'departments.0.name.required' => 'Setidaknya input departemen pertama wajib diisi.',
+                'departments.0.name.unique' => 'Departemen sudah ada.',
+                'departments.0.name.min' => 'Nama departemen minimal 6 huruf'
+            ]
+        );
 
         // ambil input/request dari position yang berisi
         $departments = array_filter($this->departments, function ($a) {
             return trim($a['name']) !== "";
         });
 
-        // alasan menggunakan create alih2 mengunakan ::insert adalah karena tidak looping untuk menambahkan created_at dan updated_at
+        // alasan menggunakan create dibandingkan mengunakan ::insert adalah karena tidak looping untuk menambahkan created_at dan updated_at
         foreach ($departments as $department) {
             Department::create($department);
         }

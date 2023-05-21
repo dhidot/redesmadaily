@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@push('style')
-<link rel="stylesheet" href="{{ asset('tom-select/tom-select.css') }}">
-@endpush
-
 @section('buttons')
 <div class="btn-toolbar mb-2 mb-md-0">
     <div>

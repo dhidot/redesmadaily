@@ -15,14 +15,11 @@ class DepartmentSeeder extends Seeder
      */
     public function run()
     {
-        Department::create([
-            'name' => 'Engineering',
-        ]);
-        Department::create([
-            'name' => 'Acrylic & Laser Cut', // karyawaan
-        ]);
-        Department::create([
-            'name' => 'Non-Department', // karyawaan
+        Department::factory()->createMany([
+            ["name" => "Engineering"],
+            ["name" => "Acrylic & Laser Cut"],
+            ["name" => "Fabrication & Procurement"],
+            ["name" => "Non-Department"]
         ]);
     }
 }
